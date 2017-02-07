@@ -35,15 +35,11 @@
 		border-radius: 50%;
 		box-sizing: content-box;
 	}
-
-	.dashboard & > span {
-		background-color: white;	
-	}
 }
 </style>
 
 <template lang="pug">
-span.loading
+.loading
 	span(:class="type")
 </template>
 

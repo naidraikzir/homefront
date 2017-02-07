@@ -69,18 +69,19 @@ const router = new Router({
 	]
 })
 
-router.beforeEach((to, from, next) => {
-	if (to.matched.some(route => route.meta.requiresAuth) && !store.getters.isAuthenticated) 
-		next({ name: 'landing' })
-	else
-		next()
-})
+// router.beforeEach((to, from, next) => {
+// 	if (to.matched.some(route => route.meta.requiresAuth) && !store.getters.isAuthenticated) 
+// 		next({ name: 'landing' })
+// 	else
+// 		next()
+// })
 
 router.afterEach(to => {
-	if (to.matched.some(route => route.name === 'dashboard')) {
-		store.dispatch('toggleDashMenu', false)
-		makeTitle(to.name, 'Rizki Ardian')
-	}
+	makeTitle(to.name, 'Rizki Ardian')
+	// if (to.matched.some(route => route.name === 'dashboard')) {
+	// 	store.dispatch('toggleDashMenu', false)
+	// 	makeTitle(to.name, 'Rizki Ardian')
+	// }
 })
 
 export default router

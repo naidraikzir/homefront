@@ -1,16 +1,26 @@
+<style lang="sass" scoped>
+section {
+	height: 10em;
+}
+
+.head {
+	text-align: center;
+}
+</style>
+
 <template lang="pug">
 div
 	home-header(:show="header")
 	transition(name="fade")
-		article.vh100.flex.items-center(v-if="loading")
+		section(v-if="loading")
 			loading
 	transition(
 		@before-enter="titleBefore",
 		@enter="enter",
 		@leave="titleLeave")
-		article(v-if="post")
-			h2.center {{ post.title }}
-			.center: em {{ format(post.created_at, 'MMMM, Do YYYY') }}
+		article.head(v-if="post")
+			h2 {{ post.title }}
+			em {{ format(post.created_at, 'MMMM, Do YYYY') }}
 	transition(
 		@before-enter="contentBefore",
 		@enter="enter",

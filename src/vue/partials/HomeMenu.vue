@@ -36,7 +36,7 @@
 </style>
 
 <template lang="pug">
-.menu
+nav
 	router-link.item(
 		v-for="menu in menus",
 		:to="{ name: menu.name }") {{ menu.text }}
@@ -51,6 +51,7 @@ export default {
 			menus: [
 				{ name: 'thoughts', text: 'Thoughts' },
 				{ name: 'projects', text: 'Projects' },
+				{ name: '404', text: '404' },
 			]
 		}
 	}

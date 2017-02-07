@@ -1,10 +1,21 @@
+<style lang="sass" scoped>
+article {
+	text-align: right;
+}
+
+h1,
+h2 {
+	margin: 0;
+}
+</style>
+
 <template lang="pug">
-article.right-align
-	h1.hlg Ooops...
-	h1.hxxl
+article
+	h2 Ooops...
+	h1
 		mark 404
 	h2 Looks like I can't always give what you want
-	router-link(:to="{ name: 'home', exact: true }") Check back the other ones
+	router-link(:to="{ name: 'landing', exact: true }") Check back the other ones
 </template>
 
 <script>

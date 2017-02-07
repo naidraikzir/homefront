@@ -1,16 +1,27 @@
 <style lang="sass" scoped>
-a { color: white; }
+div {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+a {
+	border: 0;
+	color: white;
+	font-size: 2em;
+
+	&.invisible {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
 </style>
 
 <template lang="pug">
-.flex.justify-between.items-center(v-if="pagination.last_page > 1")
-	a.h1.pb1.border-none(
-		@click="to(-1)",
-		:class="{ 'invisible': isFirstPage }") ←
-	div {{ pagination.current_page }} / {{ pagination.last_page }}
-	a.h1.pb1.border-none(
-		@click="to(1)",
-		:class="{ 'invisible': isLastPage }") ︎→
+div(v-if="pagination.last_page > 1")
+	a(@click="to(-1)", :class="{ 'invisible': isFirstPage }") ←
+	span {{ pagination.current_page }} / {{ pagination.last_page }}
+	a(@click="to(1)", :class="{ 'invisible': isLastPage }") ︎→
 </template>
 
 <script>

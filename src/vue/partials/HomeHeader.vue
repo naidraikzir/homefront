@@ -1,10 +1,22 @@
+<style lang="sass" scoped>
+header {
+	display: flex;
+	justify-content: space-between;
+	padding: 1em;
+}
+
+a {
+	border: 0;
+}
+</style>
+
 <template lang="pug">
 transition(
 	@before-enter="before",
 	@enter="enter",
 	@leave="leave")
-	.flex.justify-between.p2(v-if="show")
-		router-link.border-none(:to="{ name: 'landing' }"): logo
+	header(v-if="show")
+		router-link(:to="{ name: 'landing' }"): logo
 		home-menu
 </template>
 

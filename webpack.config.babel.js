@@ -12,7 +12,9 @@ const STATS_ANALYZER = new BundleAnalyzerPlugin({ generateStatsFile: true })
 const CONFIG = {
 	entry: {
 		app: __dirname + '/src/js/app.js',
-		vendor: ['vue', 'vue-resource', 'vue-router', 'vuex', 'hammerjs', 'marked']
+		vendor: [
+			'vue', 'vue-resource', 'vue-router', 'vuex', 'hammerjs', 'marked', 'firebase', 'vuefire'
+		]
 	},
 	output: {
 		path: __dirname + '/dist',
@@ -63,7 +65,6 @@ const CONFIG = {
 
 if (PRODUCTION) {
 	CONFIG.output.filename = `js/[name].js`
-	// CONFIG.devtool = '#cheap-module-source-map'
 	CONFIG.output.publicPath = '/'
 	CONFIG.module.rules = (CONFIG.module.rules || []).concat([
 		{
