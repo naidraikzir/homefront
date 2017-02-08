@@ -1,7 +1,7 @@
 <style lang="sass" scoped>
 @import
-	'../../../sass/variables',
-	'../../../sass/mixins';
+	'../../sass/variables',
+	'../../sass/mixins';
 
 a {
 	border: 0;
@@ -150,15 +150,6 @@ a {
 		padding-left: -3.8em;
 	}
 }
-
-.contact {
-	margin-top: 6em;
-
-	> div {
-		margin-bottom: 2em;
-		position: relative;
-	}
-}
 </style>
 
 <template lang="pug">
@@ -168,51 +159,54 @@ a {
 		a.link(@click="") Resume
 	router-link.link.projects(:to="{ name: 'projects' }") Projects
 
-	.greet(ref="greet")
+	.greet
 		h1
 			| Hey Ho
-		p
-			| My name is Rizki Ardian
-			br
-			| I am a web developer
+		p#greet
 		.contact
-			div
-				| Jalan Logam III, Margacinta
-				br
-				| Buahbatu, Bandung
-				br
-				| Indonesia
-			div
-				a(:href="phoneLink") P — {{ phone }}
-				br
-				a(:href="emailLink") E — {{ email }}
+			mark-view(:content="bio.address")
+			a(:href="phoneLink") P — {{ bio.phone }}
+			br
+			a(:href="emailLink") E — {{ bio.email }}
 </template>
 
 <script>
+import typer from 'typer-js'
+import MarkView from 'vue/components/MarkView'
+import bio from 'json/bio'
+
 export default {
 	name: 'Landing',
+	components: { MarkView },
 
 	data () {
 		return {
 			mounted: false,
-			phone: '628 597 400 2493',
-			email: 'rizkiardian@rocketmail.com'
+			bio,
 		}
 	},
 
 	computed: {
-		phoneLink () { return `tel:${this.phone.split(' ').join('')}` },
-		emailLink () { return `mailto:${this.email}` },
+		phoneLink () {
+			return `tel:${this.bio.phone.split(' ').join('')}`
+		},
+		emailLink () {
+			return `mailto:${this.bio.email}`
+		},
 	},
 
 	mounted () {
 		setTimeout(() => {
 			this.mounted = true
+			typer('#greet')
+				.pause(500)
+				.line(this.bio.greet, 50)
 		}, 1000)
 	},
 
 	beforeRouteLeave (to, from, next) {
 		this.mounted = false
+		
 		setTimeout(() => {
 			next()
 		}, 1500)

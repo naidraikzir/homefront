@@ -20,7 +20,7 @@ div
 		@leave="titleLeave")
 		article.head(v-if="post")
 			h2 {{ post.title }}
-			em {{ format(post.created_at, 'MMMM, Do YYYY') }}
+			em {{ format(post.published_at, 'MMMM, Do YYYY') }}
 	transition(
 		@before-enter="contentBefore",
 		@enter="enter",
