@@ -162,7 +162,7 @@ a {
 	.greet
 		h1
 			| Hey Ho
-		p#greet
+		mark-view(:content="bio.greet")
 		.contact
 			mark-view(:content="bio.address")
 			a(:href="phoneLink") P — {{ bio.phone }}
@@ -171,7 +171,6 @@ a {
 </template>
 
 <script>
-import typer from 'typer-js'
 import MarkView from 'vue/components/MarkView'
 import bio from 'json/bio'
 
@@ -198,9 +197,6 @@ export default {
 	mounted () {
 		setTimeout(() => {
 			this.mounted = true
-			typer('#greet')
-				.pause(500)
-				.line(this.bio.greet, 50)
 		}, 1000)
 	},
 

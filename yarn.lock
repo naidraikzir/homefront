@@ -4266,9 +4266,25 @@ uglify-js@^2.6.1, uglify-js@^2.7.5:
     uglify-to-browserify "~1.0.0"
     yargs "~3.10.0"
 
+"uglify-js@git://github.com/mishoo/UglifyJS2#harmony":
+  version "2.7.5"
+  resolved "git://github.com/mishoo/UglifyJS2#4bd31607f665499543bbc83192225203ae6763d1"
+  dependencies:
+    async "~0.2.6"
+    source-map "~0.5.1"
+    uglify-to-browserify "~1.0.0"
+    yargs "~3.10.0"
+
 uglify-to-browserify@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/uglify-to-browserify/-/uglify-to-browserify-1.0.2.tgz#6e0924d6bda6b5afe349e39a6d632850a0f882b7"
+
+uglifyjs-webpack-plugin@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-0.1.4.tgz#e676ec359c1428f9e7d19f7424b727e1d6471f8f"
+  dependencies:
+    source-map "^0.5.6"
+    webpack-sources "^0.1.4"
 
 uid-number@~0.0.6:
   version "0.0.6"
