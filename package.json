@@ -28,7 +28,6 @@
     "pug": "^2.0.0-beta11",
     "sass-loader": "^5.0.0",
     "style-loader": "^0.13.1",
-    "typer-js": "^2.4.1",
     "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony",
     "uglifyjs-webpack-plugin": "^0.1.4",
     "url-loader": "^0.5.7",
@@ -41,7 +40,7 @@
     "vue-style-loader": "^2.0.0",
     "vue-template-compiler": "^2.1.4",
     "vuex": "^2.1.2",
-    "vuex-persistedstate": "^1.1.0",
+    "vuexfire": "^0.4.0",
     "webpack": "^2.2.1",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-server": "^2.3.0"

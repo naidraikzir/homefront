@@ -1,5 +1,5 @@
 export default {
-	isAuthenticated: state => state.isAuthenticated,
-	dashMenu: state => state.dashMenu,
-	menu: state => state.menu,
+	bio: state => state.bio,
+	thoughts: state => state.thoughts,
+	projects: state => state.projects,
 }

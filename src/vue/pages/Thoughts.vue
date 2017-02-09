@@ -21,40 +21,35 @@ div
 	transition-group(
 		name="stagger",
 		tag="article",
-		@before-enter="postsBefore",
-		@enter="postsEnter",
-		@leave="postsLeave")
+		@before-enter="thoughtsBefore",
+		@enter="thoughtsEnter",
+		@leave="thoughtsLeave")
 		div(
-			v-for="(post, index) in posts",
-			:key="post",
+			v-for="(thought, index) in localThoughts",
+			:key="thought",
 			:data-index="index")
 			.separator(v-if="index > 0") ———
-			router-link(:to="{ name: 'thought', params: { slug: post.slug } }")
-				h3 {{ post.title }}
-			em {{ format(post.created_at, 'MMMM, Do YYYY') }}
-	transition(name="fade")
-		article(v-if="posts.length")
-			pagination(:pagination="pagination")
+			router-link(:to="{ name: 'thought', params: { slug: thought.slug } }")
+				h3 {{ thought.title }}
+			em {{ format(thought.published_at, 'MMMM, Do YYYY') }}
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import anime from 'animejs'
-import firebase from 'firebase'
 import format from 'date-fns/format'
 import loading from 'js/mixins/loading'
-import Pagination from 'vue/components/Pagination'
 import HomeHeader from 'vue/partials/HomeHeader'
 
 export default {
 	name: 'Thoughts',
 	mixins: [ loading ],
-	components: { HomeHeader, Pagination },
+	components: { HomeHeader },
 
 	data () {
 		return {
 			header: false,
-			posts: [],
+			localThoughts: [],
 			pagination: {
 				current_page: 2,
 				last_page: 3
@@ -62,22 +57,28 @@ export default {
 		}
 	},
 
+	computed: {
+		...mapGetters(['thoughts'])
+	},
+
 	mounted () {
 		this.header = true
 		this.loading = true
 		
 		setTimeout(() => {
-			this.fetch()
-				.then(() => {
-					this.fetchFirebase()
-					this.loading = false
-				})
+			this.loading = false
 		}, 1000)
+		
+		setTimeout(() => {
+			for (let i = 0; i < 10; i++) {
+				this.localThoughts.push(this.thoughts[0])
+			}
+		}, 2000)
 	},
 
 	beforeRouteLeave (to, from, next) {
 		this.header = false
-		this.posts = []
+		this.localThoughts = []
 
 		setTimeout(() => {
 			next()
@@ -85,38 +86,11 @@ export default {
 	},
 
 	methods: {
-		fetch () {
-			return new Promise(resolve => {
-				setTimeout(() => {
-					for (let i = 0; i < 10; i++)
-						this.posts.push({
-							id: 1,
-							title: 'Markdown',
-							slug: 'markdown',
-							created_at: '2017-01-31'
-						})
-				}, 1000)
-				resolve()
-			})
-		},
-		fetchFirebase () {
-			let config = {
-				apiKey: "AIzaSyC-skpJP4pKL7JrSMydhIXDhp3Rtf8dVLw",
-				authDomain: "naidraikzir.firebaseapp.com",
-				databaseURL: "https://naidraikzir.firebaseio.com"
-			}
-			firebase.initializeApp(config)
-
-			let thoughtsRef = firebase.database().ref('thoughts')
-			thoughtsRef.once('value').then(snapshot => {
-				console.log(snapshot.val())
-			})
-		},
-		postsBefore (el) {
+		thoughtsBefore (el) {
 			el.style.opacity = 0
 			el.style.transform = 'translateX(-20em)'
 		},
-		postsEnter (el, done) {
+		thoughtsEnter (el, done) {
 			anime({
 				targets: el,
 				opacity: 1,
@@ -126,7 +100,7 @@ export default {
 				complete: done
 			}).play()
 		},
-		postsLeave (el, done) {
+		thoughtsLeave (el, done) {
 			anime({
 				targets: el,
 				opacity: 0,

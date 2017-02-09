@@ -160,8 +160,6 @@ a {
 	router-link.link.projects(:to="{ name: 'projects' }") Projects
 
 	.greet
-		h1
-			| Hey Ho
 		mark-view(:content="bio.greet")
 		.contact
 			mark-view(:content="bio.address")
@@ -171,8 +169,8 @@ a {
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MarkView from 'vue/components/MarkView'
-import bio from 'json/bio'
 
 export default {
 	name: 'Landing',
@@ -181,7 +179,6 @@ export default {
 	data () {
 		return {
 			mounted: false,
-			bio,
 		}
 	},
 
@@ -192,6 +189,7 @@ export default {
 		emailLink () {
 			return `mailto:${this.bio.email}`
 		},
+		...mapGetters(['bio'])
 	},
 
 	mounted () {

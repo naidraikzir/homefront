@@ -1,5 +1,5 @@
 export default {
-	isAuthenticated: false,
-	dashMenu: false,
-	menu: false,
+	bio: null,
+	thoughts: [],
+	projects: false,
 }

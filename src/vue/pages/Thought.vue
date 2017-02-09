@@ -18,26 +18,25 @@ div
 		@before-enter="titleBefore",
 		@enter="enter",
 		@leave="titleLeave")
-		article.head(v-if="post")
-			h2 {{ post.title }}
-			em {{ format(post.published_at, 'MMMM, Do YYYY') }}
+		article.head(v-if="thought")
+			h2 {{ thought.title }}
+			em {{ format(thought.published_at, 'MMMM, Do YYYY') }}
 	transition(
 		@before-enter="contentBefore",
 		@enter="enter",
 		@leave="contentLeave")
-		article(v-if="post")
-			mark-view(:content="post.content")
+		article(v-if="thought")
+			mark-view(:content="thought.content")
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import anime from 'animejs'
 import format from 'date-fns/format'
 import loading from 'js/mixins/loading'
 import Logo from 'vue/components/Logo'
 import MarkView from 'vue/components/MarkView'
 import HomeHeader from 'vue/partials/HomeHeader'
-
-import post from 'json/2017_01_31'
 
 export default {
 	name: 'Thought',
@@ -47,8 +46,12 @@ export default {
 	data () {
 		return {
 			header: false,
-			post: null
+			thought: null
 		}
+	},
+
+	computed: {
+		...mapGetters(['thoughts'])
 	},
 
 	mounted () {
@@ -56,16 +59,17 @@ export default {
 		this.loading = true
 		
 		setTimeout(() => {
-			this.fetch()
-				.then(() => {
-					this.loading = false
-				})
+			this.loading = false
+		}, 1000)
+		
+		setTimeout(() => {
+			this.thought = this.thoughts[0]
 		}, 1500)
 	},
 
 	beforeRouteLeave (to, from, next) {
 		this.header = false
-		this.post = null
+		this.thought = null
 
 		setTimeout(() => {
 			next()
@@ -73,14 +77,6 @@ export default {
 	},
 
 	methods: {
-		fetch () {
-			return new Promise(resolve => {
-				setTimeout(() => {
-					this.post = post
-					resolve()
-				}, 1000)
-			})
-		},
 		titleBefore (el) {
 			el.style.opacity = 0
 			el.style.transform = 'translateY(-20em)'

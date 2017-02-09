@@ -2575,10 +2575,6 @@ lodash.indexof@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/lodash.indexof/-/lodash.indexof-4.0.5.tgz#53714adc2cddd6ed87638f893aa9b6c24e31ef3c"
 
-lodash.merge@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.0.tgz#69884ba144ac33fe699737a6086deffadd0f89c5"
-
 lodash.mergewith@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.0.tgz#150cf0a16791f5903b8891eab154609274bdea55"
@@ -2947,10 +2943,6 @@ oauth-sign@~0.8.1:
 object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.0.tgz#7a3b3d0e98063d43f4c03f2e8ae6cd51a86883a0"
-
-object-path@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.2.tgz#74bf3b3c5a7f2024d75e333f12021353fa9d485e"
 
 object.omit@^2.0.0:
   version "2.0.1"
@@ -4244,10 +4236,6 @@ type-is@~1.6.13:
     media-typer "0.3.0"
     mime-types "~2.1.11"
 
-typer-js@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/typer-js/-/typer-js-2.4.1.tgz#009c4f68a9e3d7489ffdecd26e87f76eb26c2142"
-
 uglify-js@2.6.x:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.6.4.tgz#65ea2fb3059c9394692f15fed87c2b36c16b9adf"
@@ -4458,16 +4446,13 @@ vue@^2.1.4:
   version "2.1.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.1.10.tgz#c9235ca48c7925137be5807832ac4e3ac180427b"
 
-vuex-persistedstate@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-1.1.0.tgz#94f2e94a873f39fc716dea3129af45df8d4d6f78"
-  dependencies:
-    lodash.merge "^4.6.0"
-    object-path "^0.11.2"
-
 vuex@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-2.1.2.tgz#15d2da62dd6ff59c071f0a91cd4f434eacf6ca6c"
+
+vuexfire@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/vuexfire/-/vuexfire-0.4.0.tgz#67b4bf3f34c8f6913261155e5385431460d3864d"
 
 watchpack@^1.2.0:
   version "1.2.0"
