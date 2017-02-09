@@ -137,13 +137,16 @@ a {
 	overflow-y: auto;
 	padding-bottom: 1.5em;
 	z-index: -1;
-	transform: translateY(-200%);
-	transition: 0.75s ease-in;
+	transition: 0.5s ease-out;
 	z-index: 1;
 
-	.mounted & {
-		transform: translateY(0);
-		transition: 0.75s ease-out;
+	&-enter,
+	&-leave-to {
+		transform: translateY(-200%);
+	}
+
+	&-leave-active {
+		transition: 0.5s ease-in;
 	}
 
 	@include breakpoint('md') {
@@ -159,13 +162,14 @@ a {
 		a.link(@click="") Resume
 	router-link.link.projects(:to="{ name: 'projects' }") Projects
 
-	.greet
-		mark-view(:content="bio.greet")
-		.contact
-			mark-view(:content="bio.address")
-			a(:href="phoneLink") P — {{ bio.phone }}
-			br
-			a(:href="emailLink") E — {{ bio.email }}
+	transition(name="greet")
+		.greet(v-if="mounted && bio")
+			mark-view(:content="bio.greet")
+			.contact
+				mark-view(:content="bio.address")
+				a(:href="phoneLink") P — {{ bio.phone }}
+				br
+				a(:href="emailLink") E — {{ bio.email }}
 </template>
 
 <script>
