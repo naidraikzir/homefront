@@ -1,4 +1,6 @@
 /node_modules
-/dist
+/public/css
+/public/js
+/public/stats.json
 /.idea
 npm-debug.log

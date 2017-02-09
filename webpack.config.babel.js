@@ -14,7 +14,7 @@ const CONFIG = {
 		app: __dirname + '/src/js/app.js'
 	},
 	output: {
-		path: __dirname + '/dist',
+		path: __dirname + '/public',
 	},
 	module: {
 		rules: [{
@@ -91,7 +91,7 @@ if (PRODUCTION) {
 else {
 	CONFIG.output.filename = `js/[name].js`
 	CONFIG.devtool = '#cheap-module-eval-source-map'
-	CONFIG.output.publicPath = '/dist/'
+	CONFIG.output.publicPath = '/public/'
 	CONFIG.module.rules = (CONFIG.module.rules || []).concat([
 		{
 			test: /\.scss$/,
