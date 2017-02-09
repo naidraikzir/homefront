@@ -40,6 +40,7 @@ div
 <script>
 import { mapGetters } from 'vuex'
 import anime from 'animejs'
+import firebase from 'firebase'
 import format from 'date-fns/format'
 import loading from 'js/mixins/loading'
 import Pagination from 'vue/components/Pagination'
@@ -68,6 +69,7 @@ export default {
 		setTimeout(() => {
 			this.fetch()
 				.then(() => {
+					this.fetchFirebase()
 					this.loading = false
 				})
 		}, 1000)
@@ -95,6 +97,19 @@ export default {
 						})
 				}, 1000)
 				resolve()
+			})
+		},
+		fetchFirebase () {
+			let config = {
+				apiKey: "AIzaSyC-skpJP4pKL7JrSMydhIXDhp3Rtf8dVLw",
+				authDomain: "naidraikzir.firebaseapp.com",
+				databaseURL: "https://naidraikzir.firebaseio.com"
+			}
+			firebase.initializeApp(config)
+
+			let thoughtsRef = firebase.database().ref('thoughts')
+			thoughtsRef.once('value').then(snapshot => {
+				console.log(snapshot.val())
 			})
 		},
 		postsBefore (el) {

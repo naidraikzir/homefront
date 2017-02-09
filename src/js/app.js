@@ -1,13 +1,9 @@
 'use strict'
 
 import Vue from 'vue'
-// import VueFire from 'vuefire'
-// import Firebase from 'firebase'
 import router from './router'
 import store from './store'
 import App from 'vue/App'
-
-// Vue.use(VueFire)
 
 // ajax
 // require('./http')
