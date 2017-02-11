@@ -25,17 +25,16 @@ div
 		@enter="thoughtsEnter",
 		@leave="thoughtsLeave")
 		div(
-			v-for="(thought, index) in localThoughts",
-			:key="thought",
+			v-for="(thought, key, index) in thoughts",
+			:key="key",
 			:data-index="index")
 			.separator(v-if="index > 0") ———
-			router-link(:to="{ name: 'thought', params: { slug: thought.slug } }")
+			router-link(:to="{ name: 'thought', params: { slug: key } }")
 				h3 {{ thought.title }}
-			em {{ format(thought.published_at, 'MMMM, Do YYYY') }}
+			em {{ format(thought.published_at) }}
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import anime from 'animejs'
 import format from 'date-fns/format'
 import loading from 'js/mixins/loading'
@@ -48,8 +47,8 @@ export default {
 
 	data () {
 		return {
+			thoughts: [],
 			header: false,
-			localThoughts: [],
 			pagination: {
 				current_page: 2,
 				last_page: 3
@@ -57,28 +56,14 @@ export default {
 		}
 	},
 
-	computed: {
-		...mapGetters(['thoughts'])
-	},
-
 	mounted () {
 		this.header = true
-		this.loading = true
-		
-		setTimeout(() => {
-			this.loading = false
-		}, 1000)
-		
-		setTimeout(() => {
-			for (let i = 0; i < 10; i++) {
-				this.localThoughts.push(this.thoughts[0])
-			}
-		}, 2000)
+		this.fetch()
 	},
 
 	beforeRouteLeave (to, from, next) {
 		this.header = false
-		this.localThoughts = []
+		this.thoughts = []
 
 		setTimeout(() => {
 			next()
@@ -86,6 +71,16 @@ export default {
 	},
 
 	methods: {
+		fetch () {
+			this.loading = true
+			this.$firebaseDB.ref('thoughts').once('value')
+				.then((snapshot) => {
+					setTimeout(() => {
+						this.thoughts = snapshot.val()
+					}, 300)
+					this.loading = false
+				})
+		},
 		thoughtsBefore (el) {
 			el.style.opacity = 0
 			el.style.transform = 'translateX(-20em)'
@@ -110,7 +105,9 @@ export default {
 				complete: done
 			}).play()
 		},
-		format
+		format (date) {
+			return format(date, 'MMMM, Do YYYY')
+		}
 	}
 }
 </script>

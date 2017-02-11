@@ -1,12 +1,10 @@
 import Vue from 'vue'
-import store from './store'
 import Router from 'vue-router'
 import makeTitle from './makeTitle'
 
 Vue.use(Router)
 
 import Home from 'vue/pages/Home'
-import Landing from 'vue/pages/Landing'
 import Thoughts from 'vue/pages/Thoughts'
 import Thought from 'vue/pages/Thought'
 import Projects from 'vue/pages/Projects'
@@ -16,16 +14,10 @@ const router = new Router({
 	linkActiveClass: '-active',
 	mode: 'history',
 	routes: [
-		{
-			path: '/',
-			component: Home,
-			children: [
-				{ path: '', name: 'landing', component: Landing },
-				{ path: 'thoughts', name: 'thoughts', component: Thoughts },
-				{ path: 'thoughts/:slug', name: 'thought', component: Thought },
-				{ path: 'projects', name: 'projects', component: Projects },
-			]
-		},
+		{ path: '/', name: 'home', component: Home },
+		{ path: '/thoughts', name: 'thoughts', component: Thoughts },
+		{ path: '/thoughts/:slug', name: 'thought', component: Thought },
+		{ path: '/projects', name: 'projects', component: Projects },
 		{ path: '/404', name: '404', component: NotFound },
 		{ path: '*', redirect: '/404' }
 	]

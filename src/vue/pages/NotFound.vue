@@ -15,7 +15,7 @@ article
 	h1
 		mark 404
 	h2 Looks like I can't always give what you want
-	router-link(:to="{ name: 'landing', exact: true }") Check back the other ones
+	router-link(:to="{ name: 'home', exact: true }") Check back the other ones
 </template>
 
 <script>

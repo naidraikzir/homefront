@@ -16,7 +16,7 @@ transition(
 	@enter="enter",
 	@leave="leave")
 	header(v-if="show")
-		router-link(:to="{ name: 'landing' }"): logo
+		router-link(:to="{ name: 'home' }"): logo
 		home-menu
 </template>
 

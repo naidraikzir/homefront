@@ -18,19 +18,18 @@ div
 		@before-enter="titleBefore",
 		@enter="enter",
 		@leave="titleLeave")
-		article.head(v-if="thought")
-			h2 {{ thought.title }}
-			em {{ format(thought.published_at, 'MMMM, Do YYYY') }}
+		article.head(v-if="meta")
+			h2 {{ meta.title }}
+			em {{ format(meta.published_at) }}
 	transition(
 		@before-enter="contentBefore",
 		@enter="enter",
 		@leave="contentLeave")
-		article(v-if="thought")
-			mark-view(:content="thought.content")
+		article(v-if="content")
+			mark-view(:content="content")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import anime from 'animejs'
 import format from 'date-fns/format'
 import loading from 'js/mixins/loading'
@@ -46,30 +45,20 @@ export default {
 	data () {
 		return {
 			header: false,
-			thought: null
+			meta: null,
+			content: null,
 		}
-	},
-
-	computed: {
-		...mapGetters(['thoughts'])
 	},
 
 	mounted () {
 		this.header = true
-		this.loading = true
-		
-		setTimeout(() => {
-			this.loading = false
-		}, 1000)
-		
-		setTimeout(() => {
-			this.thought = this.thoughts[0]
-		}, 1500)
+		this.fetch()
 	},
 
 	beforeRouteLeave (to, from, next) {
 		this.header = false
-		this.thought = null
+		this.meta = null
+		this.content = null
 
 		setTimeout(() => {
 			next()
@@ -77,6 +66,25 @@ export default {
 	},
 
 	methods: {
+		fetch () {
+			this.loading = true
+			this.$firebaseDB.ref(`thoughts/${this.$route.params.slug}`)
+				.once('value')
+				.then(snapshot => {
+					this.fetchContent(snapshot.val())
+				})
+		},
+		fetchContent (meta) {
+			this.$firebaseDB.ref(`thought/${this.$route.params.slug}`)
+				.once('value')
+				.then(snapshot => {
+					setTimeout(() => {
+						this.meta = meta
+						this.content = snapshot.val().content
+					}, 300)
+					this.loading = false
+				})
+		},
 		titleBefore (el) {
 			el.style.opacity = 0
 			el.style.transform = 'translateY(-20em)'
@@ -113,7 +121,9 @@ export default {
 				complete: done
 			}).play()
 		},
-		format
+		format (date) {
+			return format(date, 'MMMM, Do YYYY')
+		}
 	}
 }
 </script>

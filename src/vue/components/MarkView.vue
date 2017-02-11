@@ -11,15 +11,17 @@ export default {
 	props: {
 		content: {
 			type: String,
-			default: ''
+			default: null
 		}
 	},
 
 	computed: {
 		parsed () {
-			return marked(this.content, {
-				breaks: true
-			})
+			if (this.content) {
+				return marked(this.content, {
+					breaks: true
+				})
+			}
 		}
 	}
 }

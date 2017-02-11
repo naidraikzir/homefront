@@ -1,4 +1,9 @@
 <style lang="sass" scoped>
+@keyframes spin {
+	from { transform: rotateY(0deg); }
+	to { transform: rotateY(360deg); }
+}
+
 .logo {
 	display: inline-block;
 	position: relative;
