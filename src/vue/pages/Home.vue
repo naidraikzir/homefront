@@ -12,34 +12,6 @@ a {
 	height: 100vh;
 	overflow: hidden;
 	position: relative;
-
-	&.mounted::before {
-		transform: skewY(25deg) scaleX(1);
-	}
-
-	&::before {
-		position: absolute;
-		left: 1.5em;
-		right: 1.5em;
-		top: 1em;
-		bottom: 1em;
-		border: solid white;
-		border-width: 0 1px 0 0;
-		transform: skewY(25deg) scaleX(1.25);
-		transition: 0.75s ease-in;
-		content: '';
-
-		.mounted & {
-			transition: 0.75s ease-out;
-		}
-
-		@include breakpoint('md') {
-			left: 2em;
-			right: 2em;
-			top: 2em;
-			bottom: 2em;
-		}
-	}
 }
 
 .link {
@@ -126,13 +98,23 @@ a {
 	@include breakpoint('md') {
 		right: -3.8em;
 	}
+
+	> span {
+		content: '';
+		position: absolute;
+		right: 100%;
+		top: 0.7em;
+		border-top: 1px solid white;
+		width: 100em;
+		transition: 0.75s ease-in;
+	}
 }
 
 .greet {
 	position: absolute;
 	left: 10%;
 	right: 10%;
-	top: 1.5em;
+	top: 0;
 	bottom: 1.5em;
 	overflow-y: auto;
 	padding-bottom: 1.5em;
@@ -160,7 +142,9 @@ a {
 	.bottom
 		router-link.link(:to="{ name: 'thoughts' }") Thoughts
 		a.link(@click="") Resume
-	router-link.link.projects(:to="{ name: 'projects' }") Projects
+	router-link.link.projects(:to="{ name: 'projects' }")
+		span
+		| Projects
 
 	transition(name="greet")
 		.greet(v-if="mounted && bio")
