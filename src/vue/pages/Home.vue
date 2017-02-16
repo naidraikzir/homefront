@@ -141,7 +141,9 @@ a {
 .wrapper(:class="{ 'mounted': mounted }")
 	.bottom
 		router-link.link(:to="{ name: 'thoughts' }") Thoughts
-		a.link(@click="") Resume
+		a.link(
+			href="https://drive.google.com/open?id=0Bw0IWO_QJRzSMHBEZXVJQmpPbkk",
+			target="_blank") Resume
 	router-link.link.projects(:to="{ name: 'projects' }")
 		span
 		| Projects

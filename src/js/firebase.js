@@ -1,5 +1,7 @@
 import Vue from 'vue'
-import Firebase from 'firebase'
+import Firebase from 'firebase/app'
+
+require('firebase/database')
 
 const config = {
 	apiKey: "AIzaSyC-skpJP4pKL7JrSMydhIXDhp3Rtf8dVLw",

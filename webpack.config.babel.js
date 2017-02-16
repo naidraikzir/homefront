@@ -5,16 +5,27 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 const PRODUCTION = process.env.NODE_ENV === 'production'
 const DEFINE_PRODUCTION = new webpack.DefinePlugin({ 'process.env': { NODE_ENV: '"production"' }})
+const COMMONS_CHUNK = new webpack.optimize.CommonsChunkPlugin({ name: [ 'vendor', 'manifest' ] })
 const EXTRACT_CSS = new ExtractTextPlugin({ filename: 'css/app.css' })
 const UGLIFY = new UglifyJSPlugin({ output: { comments: false }})
 const STATS_ANALYZER = new BundleAnalyzerPlugin({ generateStatsFile: true })
 
 const CONFIG = {
 	entry: {
-		app: __dirname + '/src/js/app.js'
+		app: __dirname + '/src/js/app.js',
+		vendor: [
+			'vue',
+			'vue-router',
+			'firebase/app',
+			'firebase/database',
+			'marked',
+			'animejs',
+			'date-fns/format'
+		]
 	},
 	output: {
 		path: __dirname + '/public',
+		filename: `js/[name].js`
 	},
 	module: {
 		rules: [{
@@ -46,6 +57,9 @@ const CONFIG = {
 			}]
 		}]
 	},
+	plugins: [
+		COMMONS_CHUNK
+	],
 	resolve: {
 		extensions: [ '.js', '.vue', '.scss', '.json' ],
 		modules: [ 'node_modules', __dirname + '/src/' ]
@@ -57,7 +71,6 @@ const CONFIG = {
 }
 
 if (PRODUCTION) {
-	CONFIG.output.filename = `js/[name].js`
 	CONFIG.output.publicPath = '/'
 	CONFIG.module.rules = (CONFIG.module.rules || []).concat([
 		{
@@ -89,9 +102,8 @@ if (PRODUCTION) {
 	])
 }
 else {
-	CONFIG.output.filename = `js/[name].js`
-	CONFIG.devtool = '#cheap-module-eval-source-map'
 	CONFIG.output.publicPath = '/public/'
+	CONFIG.devtool = '#cheap-module-eval-source-map'
 	CONFIG.module.rules = (CONFIG.module.rules || []).concat([
 		{
 			test: /\.scss$/,
