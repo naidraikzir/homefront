@@ -2,6 +2,7 @@ import webpack from 'webpack'
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import SWPrecacheWebpackPlugin from 'sw-precache-webpack-plugin'
 
 const PRODUCTION = process.env.NODE_ENV === 'production'
 const DEFINE_PRODUCTION = new webpack.DefinePlugin({ 'process.env': { NODE_ENV: '"production"' }})
@@ -9,6 +10,19 @@ const COMMONS_CHUNK = new webpack.optimize.CommonsChunkPlugin({ name: [ 'vendor'
 const EXTRACT_CSS = new ExtractTextPlugin({ filename: 'css/app.css' })
 const UGLIFY = new UglifyJSPlugin({ output: { comments: false }})
 const STATS_ANALYZER = new BundleAnalyzerPlugin({ generateStatsFile: true })
+const SERVICE_WORKER = new SWPrecacheWebpackPlugin({
+	cacheId: 'naidraikzir',
+	filename: 'naidraikzir-sw.js',
+	maximumFileSizeToCacheInBytes: 4194304,
+	minify: true,
+	staticFileGlobs: [
+		'public/index.html',
+		'public/css/**.css',
+		'public/js/**.js',
+		'public/favicon.ico',
+	],
+	stripPrefix: 'public/'
+}),
 
 const CONFIG = {
 	entry: {
@@ -98,7 +112,8 @@ if (PRODUCTION) {
 		DEFINE_PRODUCTION,
 		EXTRACT_CSS,
 		UGLIFY,
-		STATS_ANALYZER
+		STATS_ANALYZER,
+		SERVICE_WORKER
 	])
 }
 else {

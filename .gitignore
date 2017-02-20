@@ -2,5 +2,6 @@
 /public/css
 /public/js
 /public/stats.json
+/public/naidraikzir-sw.js
 /.idea
 npm-debug.log
