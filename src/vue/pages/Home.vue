@@ -61,11 +61,15 @@ a {
 
 .bottom {
 	bottom: 1em;
-	left: 1em;
-	position: absolute;
+	left: 0;
+	width: 100%;
+	position: fixed;
+	padding-left: 1em;
 	transform: translateX(-300%);
 	transform-origin: left;
 	transition: 0.75s ease-in;
+	background-color: black;
+	box-shadow: 0 0 2em 1em black;
 	z-index: 2;
 
 	> .link {
@@ -74,10 +78,6 @@ a {
 
 	.mounted & {
 		transform: translateX(0);
-	}
-
-	@include breakpoint('md') {
-		left: 1.7em;
 	}
 }
 
@@ -117,7 +117,7 @@ a {
 	top: 0;
 	bottom: 1.5em;
 	overflow-y: auto;
-	padding-bottom: 1.5em;
+	padding-bottom: 3.5em;
 	z-index: -1;
 	transition: 0.5s ease-out;
 	z-index: 1;
@@ -129,10 +129,6 @@ a {
 
 	&-leave-active {
 		transition: 0.5s ease-in;
-	}
-
-	@include breakpoint('md') {
-		padding-left: -3.8em;
 	}
 }
 </style>
@@ -149,13 +145,24 @@ a {
 		| Projects
 
 	transition(name="greet")
-		.greet(v-if="mounted && bio")
-			mark-view(:content="bio.greet")
-			.contact
-				mark-view(:content="bio.address")
-				a(:href="phoneLink") P — {{ bio.phone }}
+		.greet(v-if="mounted")
+			h1 Heyho
+			p
+				| My name is Rizki Ardian.
 				br
-				a(:href="emailLink") E — {{ bio.email }}
+				| I develop websites and design user interfaces.
+				br
+				| Love travelling and photography.
+			.contact
+				p
+					| Jalan Logam III, Margacinta
+					br
+					| Buahbatu, Bandung
+					br
+					| Indonesia
+				a(href="tel:+6285974002493") P — 628 597 400 2493
+				br
+				a(href="mailto:radeite8@gmail.com") E — radeite8@gmail.com
 </template>
 
 <script>
@@ -167,26 +174,11 @@ export default {
 
 	data () {
 		return {
-			bio: null,
 			mounted: false,
 		}
 	},
 
-	computed: {
-		phoneLink () {
-			return `tel:${this.bio.phone.split(' ').join('')}`
-		},
-		emailLink () {
-			return `mailto:${this.bio.email}`
-		},
-	},
-
 	mounted () {
-		this.$firebaseDB.ref('bio').once('value')
-			.then(snapshot => {
-				this.bio = snapshot.val()
-			})
-
 		setTimeout(() => {
 			this.mounted = true
 		}, 1000)

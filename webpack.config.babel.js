@@ -22,7 +22,7 @@ const SERVICE_WORKER = new SWPrecacheWebpackPlugin({
 		'public/favicon.ico',
 	],
 	stripPrefix: 'public/'
-}),
+})
 
 const CONFIG = {
 	entry: {
