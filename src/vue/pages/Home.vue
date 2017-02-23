@@ -60,10 +60,11 @@ a {
 }
 
 .bottom {
-	bottom: 1em;
+	bottom: 0;
 	left: 0;
 	width: 100%;
 	position: fixed;
+	padding-bottom: 1em;
 	padding-left: 1em;
 	transform: translateX(-300%);
 	transform-origin: left;
@@ -112,15 +113,14 @@ a {
 
 .greet {
 	position: absolute;
-	left: 10%;
-	right: 10%;
+	left: 0;
+	right: 0;
 	top: 0;
-	bottom: 1.5em;
+	bottom: 0;
 	overflow-y: auto;
-	padding-bottom: 3.5em;
-	z-index: -1;
+	padding-left: 10%;
+	padding-right: 10%;
 	transition: 0.5s ease-out;
-	z-index: 1;
 
 	&-enter,
 	&-leave-to {
@@ -130,6 +130,10 @@ a {
 	&-leave-active {
 		transition: 0.5s ease-in;
 	}
+}
+
+.contact {
+	margin-bottom: 4.5em;
 }
 </style>
 

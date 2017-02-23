@@ -51,7 +51,6 @@ export default {
 			menus: [
 				{ name: 'thoughts', text: 'Thoughts' },
 				{ name: 'projects', text: 'Projects' },
-				{ name: '404', text: '404' },
 			]
 		}
 	}

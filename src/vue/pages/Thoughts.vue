@@ -3,8 +3,19 @@ section {
 	height: 10em;
 }
 
-h3 {
-	margin: 0;
+.title {
+	h3 {
+		margin: 0;
+	}
+
+	a {
+		border: 0;
+	}
+
+	a,
+	em {
+		background-color: black;
+	}
 }
 
 .separator {
@@ -24,13 +35,13 @@ div
 		@before-enter="thoughtsBefore",
 		@enter="thoughtsEnter",
 		@leave="thoughtsLeave")
-		div(
+		.title(
 			v-for="(thought, key, index) in thoughts",
 			:key="key",
 			:data-index="index")
 			.separator(v-if="index > 0") ———
-			router-link(:to="{ name: 'thought', params: { slug: key } }")
-				h3 {{ thought.title }}
+			h3
+				router-link(:to="{ name: 'thought', params: { slug: key } }") {{ thought.title }}
 			em {{ format(thought.published_at) }}
 </template>
 
