@@ -1,0 +1,8 @@
+{
+  "name": "firebase-cloud-functions",
+  "description": "Functions run on firebase server",
+  "dependencies": {
+    "firebase-admin": "^4.1.1",
+    "firebase-functions": "^0.5.1"
+  }
+}

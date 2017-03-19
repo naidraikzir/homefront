@@ -16,8 +16,8 @@
 		transform: scaleX(1);
 	}
 
-	& + & {
-		margin-left: 1em;
+	&:not(:last-child) {
+		margin-right: 1em;
 	}
 
 	&::before {
