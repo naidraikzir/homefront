@@ -1,0 +1,28 @@
+html(lang="en")
+	head
+		meta(charset="UTF-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		meta(name="theme-color", content="#000000")
+		meta(name="robots", content="index, follow")
+		meta(name="geo.placename", content="Indonesia")
+		meta(name="description", content="My name is Rizki Ardian. I develop websites and design user interfaces. Love travelling and photography.")
+		title
+		link(href="/favicon.ico", rel="icon", type="image/x-icon")
+		link(rel="manifest", href="/manifest.json")
+
+	body
+		#app
+
+		script.
+			(function() {
+				if('serviceWorker' in navigator) {
+					navigator.serviceWorker.register('/naidraikzir-sw.js')
+					window.addEventListener('online', updateOnlineStatus)
+					window.addEventListener('offline', updateOnlineStatus)
+					function updateOnlineStatus (e) {
+						if (navigator.onLine) app.$emit('online')
+						else app.$emit('offline')
+					}
+				}
+			})()

@@ -1,5 +1,6 @@
 import webpack from 'webpack'
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import SWPrecacheWebpackPlugin from 'sw-precache-webpack-plugin'
@@ -7,9 +8,19 @@ import SWPrecacheWebpackPlugin from 'sw-precache-webpack-plugin'
 const PRODUCTION = process.env.NODE_ENV === 'production'
 const DEFINE_PRODUCTION = new webpack.DefinePlugin({ 'process.env': { NODE_ENV: '"production"' }})
 const COMMONS_CHUNK = new webpack.optimize.CommonsChunkPlugin({ name: [ 'vendor', 'manifest' ] })
-const EXTRACT_CSS = new ExtractTextPlugin({ filename: 'css/app.css' })
+const EXTRACT_CSS = new ExtractTextPlugin({ filename: 'css/[name].[hash].css' })
 const UGLIFY = new UglifyJSPlugin({ output: { comments: false }})
 const STATS_ANALYZER = new BundleAnalyzerPlugin({ generateStatsFile: true })
+const HTML = new HtmlWebpackPlugin({
+  title: '',
+  template: __dirname + '/src/pug/index.pug',
+  filename: __dirname + '/public/index.html',
+  minify: {
+  	removeScriptTypeAttributes: true,
+  	removeEmptyElements: false
+  },
+  xhtml: true
+})
 const SERVICE_WORKER = new SWPrecacheWebpackPlugin({
 	cacheId: 'naidraikzir',
 	filename: 'naidraikzir-sw.js',
@@ -39,7 +50,7 @@ const CONFIG = {
 	},
 	output: {
 		path: __dirname + '/public',
-		filename: `js/[name].js`
+		filename: `js/[name].[hash].js`
 	},
 	module: {
 		rules: [{
@@ -50,8 +61,8 @@ const CONFIG = {
 			test: /\.vue$/,
 			use: 'vue-loader'
 		}, {
-			test: /\.json$/,
-			use: 'json-loader'
+			test: /\.pug$/,
+			use: 'pug-loader'
 		}, {
 			test: /\.(png|jpg|gif|svg)$/,
 			use: [{
@@ -113,7 +124,8 @@ if (PRODUCTION) {
 		EXTRACT_CSS,
 		UGLIFY,
 		STATS_ANALYZER,
-		SERVICE_WORKER
+		SERVICE_WORKER,
+		HTML
 	])
 }
 else {

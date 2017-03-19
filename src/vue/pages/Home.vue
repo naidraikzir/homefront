@@ -18,6 +18,7 @@ a {
 	background: black;
 	border: 0;
 	color: white;
+	display: inline-block;
 	font-size: 1.2em;
 	padding: 0 1em;
 	transition: 0.3s;
@@ -64,8 +65,7 @@ a {
 	left: 0;
 	width: 100%;
 	position: fixed;
-	padding-bottom: 1em;
-	padding-left: 1em;
+	padding: 0 1em 1em 1em;
 	transform: translateX(-300%);
 	transform-origin: left;
 	transition: 0.75s ease-in;
@@ -140,9 +140,11 @@ a {
 <template lang="pug">
 .wrapper(:class="{ 'mounted': mounted }")
 	.bottom
-		router-link.link(:to="{ name: 'thoughts' }") Thoughts
+		router-link.link(:to="{ name: 'thoughts' }", v-if="thoughts") Thoughts
 		a.link(href="https://drive.google.com/open?id=0Bw0IWO_QJRzSMHBEZXVJQmpPbkk") Resume
-	router-link.link.projects(:to="{ name: 'projects' }")
+		a.link(href="https://github.com/naidraikzir") Github
+		a.link(href="https://www.linkedin.com/in/rizkiardian/") LinkedIn
+	router-link.link.projects(:to="{ name: 'projects' }", v-if="projects")
 		span
 		| Projects
 
@@ -177,7 +179,13 @@ export default {
 	data () {
 		return {
 			mounted: false,
+			thoughts: false,
+			projects: false
 		}
+	},
+
+	created () {
+		this.fetch()
 	},
 
 	mounted () {
@@ -193,5 +201,19 @@ export default {
 			next()
 		}, 1500)
 	},
+
+	methods: {
+		fetch () {
+			this.$firebaseDB.ref('thoughts_count').once('value')
+				.then((snapshot) => {
+					if (snapshot.val() > 0) this.thoughts = true
+				})
+
+			this.$firebaseDB.ref('projects_count').once('value')
+				.then((snapshot) => {
+					if (snapshot.val() > 0) this.projects = true
+				})
+		},
+	}
 }
 </script>

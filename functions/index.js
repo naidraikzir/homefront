@@ -13,34 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
+'use strict'
 
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-admin.initializeApp(functions.config().firebase);
+const refs = [ 'thoughts', 'projects' ]
 
-// Keeps track of the length of the 'thoughts' child list in a separate property.
-exports.thoughtcountchange = functions.database.ref("/thoughts/{thoughtid}").onWrite((event) => {
-  var collectionRef = event.data.ref.parent;
-  var countRef = collectionRef.parent.child('thoughts_count');
+const functions = require('firebase-functions')
+const admin = require('firebase-admin')
+admin.initializeApp(functions.config().firebase)
 
-  return countRef.transaction(function(current) {
-    if (event.data.exists() && !event.data.previous.exists()) {
-      return (current || 0) + 1;
+refs.forEach(ref => {
+  // Keeps track of the length of the 'thoughts' child list in a separate property.
+  exports[`${ref}CountChange`] = functions.database.ref(`/${ref}/{slug}`).onWrite((event) => {
+    var collectionRef = event.data.ref.parent
+    var countRef = collectionRef.parent.child(`${ref}_count`)
+
+    return countRef.transaction(function(current) {
+      if (event.data.exists() && !event.data.previous.exists()) {
+        return (current || 0) + 1
+      }
+      else if (!event.data.exists() && event.data.previous.exists()) {
+        return (current || 0) - 1
+      }
+    })
+  })
+
+  // If the number of thoughts gets deleted, recount the number of thoughts
+  exports[`${ref}Recount`] = functions.database.ref(`/${ref}_count`).onWrite((event) => {
+    if (!event.data.exists()) {
+      var counterRef = event.data.ref
+      var collectionRef = counterRef.parent.child(ref)
+      return collectionRef.once('value', function(refData) {
+        return counterRef.set(refData.numChildren())
+      })
     }
-    else if (!event.data.exists() && event.data.previous.exists()) {
-      return (current || 0) - 1;
-    }
-  });
-});
-
-// If the number of thoughts gets deleted, recount the number of thoughts
-exports.recountthoughts = functions.database.ref("/thoughts_count").onWrite((event) => {
-  if (!event.data.exists()) {
-    var counterRef = event.data.ref;
-    var collectionRef = counterRef.parent.child('thoughts');
-    return collectionRef.once('value', function(thoughts) {
-      return counterRef.set(thoughts.numChildren());
-    });
-  }
-});
+  })
+})
