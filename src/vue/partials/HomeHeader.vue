@@ -2,7 +2,15 @@
 header {
 	display: flex;
 	justify-content: space-between;
+	opacity: 0;
 	padding: 1em;
+	transform: translateY(-4em);
+	transition: 0.5s;
+
+	&.-show {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 a {
@@ -11,17 +19,12 @@ a {
 </style>
 
 <template lang="pug">
-transition(
-	@before-enter="before",
-	@enter="enter",
-	@leave="leave")
-	header(v-if="show")
+	header(:class="{ '-show': show }")
 		router-link(:to="{ name: 'home' }"): logo
 		home-menu
 </template>
 
 <script>
-import anime from 'animejs'
 import Logo from 'vue/components/Logo'
 import HomeMenu from './HomeMenu'
 
@@ -31,31 +34,6 @@ export default {
 
 	props: {
 		show: Boolean
-	},
-
-	methods: {
-		before (el) {
-			el.style.opacity = 0
-			el.style.transform = 'translateY(-4em)'
-		},
-		enter (el, done) {
-			anime({
-				targets: el,
-				opacity: 1,
-				translateY: 0,
-				duration: 1500,
-				complete: done
-			}).play()
-		},
-		leave (el, done) {
-			anime({
-				targets: el,
-				opacity: 0,
-				translateY: '-2em',
-				duration: 1500,
-				complete: done
-			}).play()
-		},
 	}
 }
 </script>

@@ -44,7 +44,6 @@ const CONFIG = {
 			'firebase/app',
 			'firebase/database',
 			'marked',
-			'animejs',
 			'date-fns/format'
 		]
 	},
@@ -83,7 +82,8 @@ const CONFIG = {
 		}]
 	},
 	plugins: [
-		COMMONS_CHUNK
+		COMMONS_CHUNK,
+		HTML
 	],
 	resolve: {
 		extensions: [ '.js', '.vue', '.scss', '.json' ],
@@ -125,11 +125,10 @@ if (PRODUCTION) {
 		UGLIFY,
 		STATS_ANALYZER,
 		SERVICE_WORKER,
-		HTML
 	])
 }
 else {
-	CONFIG.output.publicPath = '/public/'
+	CONFIG.output.publicPath = '/'
 	CONFIG.devtool = '#cheap-module-eval-source-map'
 	CONFIG.module.rules = (CONFIG.module.rules || []).concat([
 		{

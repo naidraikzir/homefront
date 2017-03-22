@@ -21,6 +21,23 @@ section {
 .separator {
 	margin: 1.5em 0;
 }
+
+.slide-enter,
+.slide-leave {
+	&-active {
+		transition: 0.3s cubic-bezier(0, 0, 0, 1.2);
+	}
+}
+
+.slide-enter {
+	opacity: 0;
+	transform: translateX(-2em);
+}
+
+.slide-leave-to {
+	opacity: 0;
+	transform: translateX(2em);
+}
 </style>
 
 <template lang="pug">
@@ -29,16 +46,11 @@ div
 	transition(name="fade")
 		section(v-if="loading")
 			loading
-	transition-group(
-		name="stagger",
-		tag="article",
-		@before-enter="thoughtsBefore",
-		@enter="thoughtsEnter",
-		@leave="thoughtsLeave")
+	transition-group(name="slide", tag="article")
 		.title(
 			v-for="(thought, key, index) in thoughts",
 			:key="key",
-			:data-index="index")
+			:style="{ transitionDelay: (index * 0.15) + 's' }")
 			.separator(v-if="index > 0") ———
 			h3
 				router-link(:to="{ name: 'thought', params: { slug: key } }") {{ thought.title }}
@@ -46,7 +58,6 @@ div
 </template>
 
 <script>
-import anime from 'animejs'
 import format from 'date-fns/format'
 import loading from 'js/mixins/loading'
 import HomeHeader from 'vue/partials/HomeHeader'
@@ -91,30 +102,6 @@ export default {
 					}, 300)
 					this.loading = false
 				})
-		},
-		thoughtsBefore (el) {
-			el.style.opacity = 0
-			el.style.transform = 'translateX(-20em)'
-		},
-		thoughtsEnter (el, done) {
-			anime({
-				targets: el,
-				opacity: 1,
-				translateX: 0,
-				duration: 1000,
-				delay: (el.dataset.index + 1) * 10,
-				complete: done
-			}).play()
-		},
-		thoughtsLeave (el, done) {
-			anime({
-				targets: el,
-				opacity: 0,
-				translateX: '1em',
-				duration: 1000,
-				delay: (el.dataset.index + 1) * 10,
-				complete: done
-			}).play()
 		},
 		format (date) {
 			return format(date, 'MMMM, Do YYYY')

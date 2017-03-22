@@ -38,7 +38,7 @@
 <template lang="pug">
 nav
 	router-link.item(
-		v-for="menu in menus",
+		v-for="menu in menus.filter(menu => menu.show)",
 		:to="{ name: menu.name }") {{ menu.text }}
 </template>
 
@@ -49,9 +49,30 @@ export default {
 	data () {
 		return {
 			menus: [
-				{ name: 'thoughts', text: 'Thoughts' },
-				{ name: 'projects', text: 'Projects' },
+				{ name: 'thoughts', text: 'Thoughts', show: false },
+				{ name: 'projects', text: 'Projects', show: false },
 			]
+		}
+	},
+
+	created () {
+		this.fetch()
+	},
+
+	methods: {
+		fetch () {
+			this.$firebaseDB.ref('thoughts_count').once('value')
+				.then((snapshot) => {
+					if (snapshot.val() > 0) this.set('thoughts')
+				})
+
+			this.$firebaseDB.ref('projects_count').once('value')
+				.then((snapshot) => {
+					if (snapshot.val() > 0) this.set('projects')
+				})
+		},
+		set (name) {
+			this.menus.find(menu => menu.name === name).show = true
 		}
 	}
 }

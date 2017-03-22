@@ -66,19 +66,21 @@ a {
 	width: 100%;
 	position: fixed;
 	padding: 0 1em 1em 1em;
-	transform: translateX(-300%);
-	transform-origin: left;
-	transition: 0.75s ease-in;
 	background-color: black;
 	box-shadow: 0 0 2em 1em black;
 	z-index: 2;
 
 	> .link {
+		opacity: 0;
 		position: relative;
-	}
+		transform: translateX(-300%);
+		transform-origin: left;
+		transition: 0.5s ease-in;
 
-	.mounted & {
-		transform: translateX(0);
+		.mounted & {
+			opacity: 1;
+			transform: translateX(0);
+		}
 	}
 }
 
@@ -140,10 +142,10 @@ a {
 <template lang="pug">
 .wrapper(:class="{ 'mounted': mounted }")
 	.bottom
-		router-link.link(:to="{ name: 'thoughts' }", v-if="thoughts") Thoughts
-		a.link(href="https://drive.google.com/open?id=0Bw0IWO_QJRzSMHBEZXVJQmpPbkk") Resume
-		a.link(href="https://github.com/naidraikzir") Github
-		a.link(href="https://www.linkedin.com/in/rizkiardian/") LinkedIn
+		router-link.link(:to="{ name: 'thoughts' }", v-if="thoughts", style="transition-delay: 0.3s") Thoughts
+		a.link(href="https://drive.google.com/open?id=0Bw0IWO_QJRzSMHBEZXVJQmpPbkk", style="transition-delay: 0.2s") Resume
+		a.link(href="https://github.com/naidraikzir", style="transition-delay: 0.1s") Github
+		a.link(href="https://www.linkedin.com/in/rizkiardian/", style="transition-delay: 0s") LinkedIn
 	router-link.link.projects(:to="{ name: 'projects' }", v-if="projects")
 		span
 		| Projects

@@ -5,6 +5,39 @@ section {
 
 .head {
 	text-align: center;
+
+	h2 {
+		margin-top: 0;
+	}
+}
+
+.slide-up,
+.slide-down {
+	&-enter,
+	&-leave {
+		&-active {
+			transition: 0.5s cubic-bezier(0, 0, 0, 1.2);
+		}
+	}
+
+	&-enter,
+	&-leave-to {
+		opacity: 0;
+	}
+}
+
+.slide-up {
+	&-enter,
+	&-leave-to {
+		transform: translateY(-5em);
+	}
+}
+
+.slide-down {
+	&-enter,
+	&-leave-to {
+		transform: translateY(5em);
+	}
 }
 </style>
 
@@ -14,23 +47,16 @@ div
 	transition(name="fade")
 		section(v-if="loading")
 			loading
-	transition(
-		@before-enter="titleBefore",
-		@enter="enter",
-		@leave="titleLeave")
+	transition(name="slide-up")
 		article.head(v-if="meta")
 			h2 {{ meta.title }}
 			em {{ format(meta.published_at) }}
-	transition(
-		@before-enter="contentBefore",
-		@enter="enter",
-		@leave="contentLeave")
+	transition(name="slide-down")
 		article(v-if="content")
 			mark-view(:content="content")
 </template>
 
 <script>
-import anime from 'animejs'
 import format from 'date-fns/format'
 import loading from 'js/mixins/loading'
 import Logo from 'vue/components/Logo'
@@ -84,42 +110,6 @@ export default {
 					}, 300)
 					this.loading = false
 				})
-		},
-		titleBefore (el) {
-			el.style.opacity = 0
-			el.style.transform = 'translateY(-20em)'
-		},
-		contentBefore (el) {
-			el.style.opacity = 0
-			el.style.transform = 'translateY(20em)'
-		},
-		enter (el, done) {
-			anime({
-				targets: el,
-				opacity: 1,
-				translateY: 0,
-				duration: 2000,
-				delay: 500,
-				complete: done
-			}).play()
-		},
-		titleLeave (el, done) {
-			anime({
-				targets: el,
-				opacity: 0,
-				translateY: '-10em',
-				duration: 2000,
-				complete: done
-			}).play()
-		},
-		contentLeave (el, done) {
-			anime({
-				targets: el,
-				opacity: 0,
-				translateY: '10em',
-				duration: 2000,
-				complete: done
-			}).play()
 		},
 		format (date) {
 			return format(date, 'MMMM, Do YYYY')
