@@ -101,14 +101,23 @@ export default {
 				})
 		},
 		fetchContent (meta) {
-			this.$firebaseDB.ref(`thought/${this.$route.params.slug}`)
-				.once('value')
-				.then(snapshot => {
-					setTimeout(() => {
-						this.meta = meta
-						this.content = snapshot.val().content
-					}, 300)
-					this.loading = false
+			this.$firebaseFiles.ref().child(`thoughts/${this.$route.params.slug}.md`)
+				.getDownloadURL()
+				.then(url => {
+					let xhr = new XMLHttpRequest()
+					xhr.onreadystatechange = event => {
+						if (xhr.readyState === 4) {
+							if (xhr.status === 200) {
+								setTimeout(() => {
+									this.meta = meta
+									this.content = xhr.responseText
+								}, 300)
+								this.loading = false
+							}
+						}
+					}
+					xhr.open('GET', url)
+					xhr.send()
 				})
 		},
 		format (date) {
