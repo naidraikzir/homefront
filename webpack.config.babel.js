@@ -43,6 +43,7 @@ const CONFIG = {
 			'vue-router',
 			'firebase/app',
 			'firebase/database',
+			'firebase/storage',
 			'marked',
 			'date-fns/format'
 		]
