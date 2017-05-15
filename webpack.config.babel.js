@@ -7,10 +7,14 @@ import SWPrecacheWebpackPlugin from 'sw-precache-webpack-plugin'
 
 const PRODUCTION = process.env.NODE_ENV === 'production'
 const DEFINE_PRODUCTION = new webpack.DefinePlugin({ 'process.env': { NODE_ENV: '"production"' }})
-const COMMONS_CHUNK = new webpack.optimize.CommonsChunkPlugin({ name: [ 'vendor', 'manifest' ] })
 const EXTRACT_CSS = new ExtractTextPlugin({ filename: 'css/[name].[hash].css' })
 const UGLIFY = new UglifyJSPlugin({ output: { comments: false }})
 const STATS_ANALYZER = new BundleAnalyzerPlugin({ generateStatsFile: true })
+const MANIFEST = new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' })
+const VENDOR = new webpack.optimize.CommonsChunkPlugin({
+	name: 'vendor',
+	minChunks: module => module.context && module.context.indexOf('node_modules') !== -1 && module.request.indexOf('css') === -1
+})
 const HTML = new HtmlWebpackPlugin({
   title: '',
   template: __dirname + '/src/pug/index.pug',
@@ -38,15 +42,6 @@ const SERVICE_WORKER = new SWPrecacheWebpackPlugin({
 const CONFIG = {
 	entry: {
 		app: __dirname + '/src/js/app.js',
-		vendor: [
-			'vue',
-			'vue-router',
-			'firebase/app',
-			'firebase/database',
-			'firebase/storage',
-			'marked',
-			'date-fns/format'
-		]
 	},
 	output: {
 		path: __dirname + '/public',
@@ -83,7 +78,8 @@ const CONFIG = {
 		}]
 	},
 	plugins: [
-		COMMONS_CHUNK,
+		VENDOR,
+		MANIFEST,
 		HTML
 	],
 	resolve: {

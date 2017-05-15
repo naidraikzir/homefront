@@ -54,6 +54,9 @@ div
 	transition(name="slide-down")
 		article(v-if="content")
 			mark-view(:content="content")
+	transition(name="slide-down")
+		article(v-if="content")
+			div(id="disqus_thread")
 </template>
 
 <script>
@@ -111,6 +114,7 @@ export default {
 								setTimeout(() => {
 									this.meta = meta
 									this.content = xhr.responseText
+									this.fetchDisqus()
 								}, 300)
 								this.loading = false
 							}
@@ -119,6 +123,16 @@ export default {
 					xhr.open('GET', url)
 					xhr.send()
 				})
+		},
+		fetchDisqus () {
+			let disqus_config = () => {
+				this.page.url = window.location.href
+				this.page.identifier = this.$route.params.slug
+			}
+
+			let s = document.createElement('script');
+			s.src = 'https://naidraikzir.disqus.com/embed.js';
+			(document.head || document.body).appendChild(s)
 		},
 		format (date) {
 			return format(date, 'MMMM, Do YYYY')
