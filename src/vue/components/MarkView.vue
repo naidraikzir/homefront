@@ -30,7 +30,7 @@ export default {
 		parsed () {
 			if (this.content) {
 				return marked(this.content, {
-					highlight: (code, lang) => Prism.highlight(code, Prism.languages[lang], lang)
+					highlight: (code, lang) => lang ? Prism.highlight(code, Prism.languages[lang], lang) : code
 				})
 			}
 		}
