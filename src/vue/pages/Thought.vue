@@ -56,7 +56,10 @@ div
 			mark-view(:content="content")
 	transition(name="slide-down")
 		article(v-if="content")
-			div(id="disqus_thread")
+			disqus(
+				shortname="naidraikzir",
+				:identifier="$route.params.slug", 
+				:url="url")
 </template>
 
 <script>
@@ -65,17 +68,19 @@ import loading from 'js/mixins/loading'
 import Logo from 'vue/components/Logo'
 import MarkView from 'vue/components/MarkView'
 import HomeHeader from 'vue/partials/HomeHeader'
+import Disqus from 'vue-disqus/VueDisqus'
 
 export default {
 	name: 'Thought',
 	mixins: [ loading ],
-	components: { Logo, MarkView, HomeHeader },
+	components: { Logo, MarkView, HomeHeader, Disqus },
 
 	data () {
 		return {
 			header: false,
 			meta: null,
 			content: null,
+			url: window.location.href
 		}
 	},
 
@@ -114,7 +119,6 @@ export default {
 								setTimeout(() => {
 									this.meta = meta
 									this.content = xhr.responseText
-									this.fetchDisqus()
 								}, 300)
 								this.loading = false
 							}
@@ -123,16 +127,6 @@ export default {
 					xhr.open('GET', url)
 					xhr.send()
 				})
-		},
-		fetchDisqus () {
-			let disqus_config = () => {
-				this.page.url = window.location.href
-				this.page.identifier = this.$route.params.slug
-			}
-
-			let s = document.createElement('script');
-			s.src = 'https://naidraikzir.disqus.com/embed.js';
-			(document.head || document.body).appendChild(s)
 		},
 		format (date) {
 			return format(date, 'MMMM, Do YYYY')
