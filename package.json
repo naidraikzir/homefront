@@ -1,5 +1,5 @@
 {
-  "name": "naidraikzir-homepage",
+  "name": "homefront",
   "private": true,
   "scripts": {
     "clean": "rm -rf public/css public/js",

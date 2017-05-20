@@ -26,8 +26,8 @@ const HTML = new HtmlWebpackPlugin({
   xhtml: true
 })
 const SERVICE_WORKER = new SWPrecacheWebpackPlugin({
-	cacheId: 'naidraikzir',
-	filename: 'naidraikzir-sw.js',
+	cacheId: 'hf',
+	filename: 'hf-sw.js',
 	maximumFileSizeToCacheInBytes: 4194304,
 	minify: true,
 	staticFileGlobs: [
