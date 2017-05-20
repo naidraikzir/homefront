@@ -1,4 +1,4 @@
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 @import '../../sass/variables';
 
 .item {
@@ -39,7 +39,8 @@
 nav
 	router-link.item(
 		v-for="menu in menus.filter(menu => menu.show)",
-		:to="{ name: menu.name }") {{ menu.text }}
+		:to="{ name: menu.name }",
+		:key="menu.name") {{ menu.text }}
 </template>
 
 <script>

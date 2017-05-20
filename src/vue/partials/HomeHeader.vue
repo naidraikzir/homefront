@@ -1,4 +1,4 @@
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 header {
 	display: flex;
 	justify-content: space-between;

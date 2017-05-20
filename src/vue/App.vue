@@ -1,4 +1,4 @@
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 .status {
 	position: fixed;
 	top: 2em;

@@ -1,4 +1,4 @@
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 @keyframes loading-slide {
 	0% { opacity: 0; transform: scale(0) translateX(-3em); width: 1em; }
 	10% { opacity: 0.1; transform: scale(0.1) translateX(-1.75em); width: 1em; }

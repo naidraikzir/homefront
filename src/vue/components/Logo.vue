@@ -1,4 +1,4 @@
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 @keyframes spin {
 	from { transform: rotateY(0deg); }
 	to { transform: rotateY(360deg); }
