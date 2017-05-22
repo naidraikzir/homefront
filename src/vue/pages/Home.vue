@@ -156,23 +156,11 @@ a {
 
 	transition(name="greet")
 		.greet(v-if="mounted")
-			h1 Heyho
-			p
-				| My name is Rizki Ardian.
-				br
-				| I develop websites and design user interfaces.
-				br
-				| Love travelling and photography.
+			mark-view(:content="greet")
 			.contact
-				p
-					| Jalan Logam III, Margacinta
-					br
-					| Buahbatu, Bandung
-					br
-					| Indonesia
-				a(href="tel:+6285974002493") P — 628 597 400 2493
+				a(:href="`tel:+${contact.phone.replace(/ /g, '')}`") P — {{ contact.phone }}
 				br
-				a(href="mailto:radeite8@gmail.com") E — radeite8@gmail.com
+				a(:href="`mailto:${contact.email}`") E — {{ contact.email }}
 </template>
 
 <script>
@@ -185,19 +173,26 @@ export default {
 	data () {
 		return {
 			mounted: false,
+			greet: null,
+			contact: {
+				email: null,
+				phone: null
+			},
 			thoughts: false,
 			projects: false
 		}
 	},
 
 	created () {
-		this.fetch()
-	},
-
-	mounted () {
-		setTimeout(() => {
+		let greet = this.fetch()
+		let contact = this.fetchContact()
+		Promise.all([
+			greet,
+			contact
+		]).then(() => {
+			this.fetchCounts()
 			this.mounted = true
-		}, 1000)
+		})
 	},
 
 	beforeRouteLeave (to, from, next) {
@@ -210,6 +205,36 @@ export default {
 
 	methods: {
 		fetch () {
+			return new Promise(resolve => {
+				this.$firebaseFiles.ref().child(`greet.md`)
+					.getDownloadURL()
+					.then(url => {
+						let xhr = new XMLHttpRequest()
+						xhr.onreadystatechange = event => {
+							if (xhr.readyState === 4) {
+								if (xhr.status === 200) {
+									setTimeout(() => {
+										this.greet = xhr.responseText
+										resolve()
+									}, 300)
+								}
+							}
+						}
+						xhr.open('GET', url)
+						xhr.send()
+					})
+			})
+		},
+		fetchContact () {
+			return new Promise(resolve => {
+				this.$firebaseDB.ref('contact').once('value')
+					.then((snapshot) => {
+						this.contact = snapshot.val()
+						resolve()
+					})
+			})
+		},
+		fetchCounts () {
 			this.$firebaseDB.ref('thoughts_count').once('value')
 				.then((snapshot) => {
 					if (snapshot.val() > 0) this.thoughts = true
@@ -219,7 +244,7 @@ export default {
 				.then((snapshot) => {
 					if (snapshot.val() > 0) this.projects = true
 				})
-		},
+		}
 	}
 }
 </script>

@@ -4,11 +4,11 @@ import makeTitle from './makeTitle'
 
 Vue.use(Router)
 
-import Home from 'vue/pages/Home'
-import Thoughts from 'vue/pages/Thoughts'
-import Thought from 'vue/pages/Thought'
-import Projects from 'vue/pages/Projects'
-import NotFound from 'vue/pages/NotFound'
+const Home = r => require.ensure([], () => r(require('vue/pages/Home')), 'home')
+const Thoughts = r => require.ensure([], () => r(require('vue/pages/Thoughts')), 'thoughts')
+const Thought = r => require.ensure([], () => r(require('vue/pages/Thought')), 'thought')
+const Projects = r => require.ensure([], () => r(require('vue/pages/Projects')), 'projects')
+const NotFound = r => require.ensure([], () => r(require('vue/pages/NotFound')), 'notfound')
 
 const router = new Router({
 	linkActiveClass: '-active',
