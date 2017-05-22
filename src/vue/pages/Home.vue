@@ -20,7 +20,7 @@ a {
 	color: white;
 	display: inline-block;
 	font-size: 1.2em;
-	padding: 0 1em;
+	padding: 0.5em 1em;
 	transition: 0.3s;
 
 	&:hover {
@@ -50,7 +50,7 @@ a {
 	&::after {
 		content: '';
 		position: absolute;
-		top: 0.7em;
+		top: 50%;
 		left: 5%;
 		width: 90%;
 		height: 1px;
@@ -135,7 +135,11 @@ a {
 }
 
 .contact {
-	margin-bottom: 4.5em;
+	margin-bottom: 9em;
+
+	@include breakpoint('sm') {
+		margin-bottom: 6em;
+	}
 }
 </style>
 
